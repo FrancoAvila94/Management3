@@ -45,14 +45,18 @@
             appId: "1:385199293635:web:b2e133215ba51065954e76"
         };
 
-        // Usa la configuración del entorno si está disponible, sino usa la tuya
-        let firebaseConfig = myFirebaseConfig;
-        try {
-            if (typeof __firebase_config !== 'undefined' && __firebase_config) {
-                firebaseConfig = typeof __firebase_config === 'string' ? JSON.parse(__firebase_config) : __firebase_config;
+        // Forzamos a usar TU configuración manual si cambiaste la API Key
+        let firebaseConfig = null;
+        if (myFirebaseConfig.apiKey && myFirebaseConfig.apiKey !== "TU_API_KEY_AQUI") {
+            firebaseConfig = myFirebaseConfig;
+        } else {
+            try {
+                if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+                    firebaseConfig = typeof __firebase_config === 'string' ? JSON.parse(__firebase_config) : __firebase_config;
+                }
+            } catch (e) {
+                console.warn("Error al leer configuración de entorno");
             }
-        } catch (e) {
-            console.warn("Error al leer configuración de entorno");
         }
         
         const appDbId = typeof __app_id !== 'undefined' && __app_id ? __app_id : 'javis-pasteleria-app';
